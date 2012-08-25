@@ -3,7 +3,7 @@ from sublime import Region
 
 # Match all the JavaScript function markers we know about.  Order doesn't
 # matter, since they don't overlap when doing re.match.
-__js_function_re__ = re.compile(r'''
+__js_function_re__ = re.compile(r"""
 	# Anonymous function
 	(?:
 		function \s*	# function
@@ -30,9 +30,9 @@ __js_function_re__ = re.compile(r'''
 		[_$a-zA-Z0-9]+ \s*	# aName
 		\( [^\)]* \) 		# (params)
 	)
-''', re.VERBOSE)
+""", re.VERBOSE)
 
-__open_brace_re__ = re.compile(r'\s*\{')
+__open_brace_re_  = re.compile(r'\s*\{')
 
 # When sel() regions are expanded, they are put on this stack. When we want to
 # retract, we just pop them off and set a new selection. We clear this stack
@@ -44,7 +44,7 @@ def clear(seq):
 
 
 class JavaScriptTextCommand(sublime_plugin.TextCommand):
-	'''Base class for text commands that's only enabled for JavaScript source.'''
+	"""Base class for text commands that's only enabled for JavaScript source."""
 
 	def is_enabled(self):
 		for region in self.view.sel():
@@ -137,7 +137,7 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 			return sublime.Region(a, a + len(last_match.group(0)))
 
 	def find_balanced_braces(self, start_point):
-		'''Returns a region that includes the next balanced set of parens after or from start_point.'''
+		"""Returns a region that includes the next balanced set of parens after or from start_point."""
 
 		# Next char is expected to be a {
 		m = __open_brace_re__.match(self.view.substr(Region(start_point, self.view.size())))
