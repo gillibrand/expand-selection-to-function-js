@@ -32,7 +32,7 @@ __js_function_re__ = re.compile(r"""
 	)
 """, re.VERBOSE)
 
-__open_brace_re_  = re.compile(r'\s*\{')
+__open_brace_re__  = re.compile(r'\s*\{')
 
 # When sel() regions are expanded, they are put on this stack. When we want to
 # retract, we just pop them off and set a new selection. We clear this stack
