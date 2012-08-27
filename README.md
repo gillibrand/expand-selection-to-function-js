@@ -22,10 +22,10 @@ Usage
 
 Both commands are available in the `Selection` menu and bound to the following keyboard shortcuts on Windows and Linux:
 
-    Expand Selection to Function (JavaScript)   Alt+↑
-    Restore Last Selection                      Alt+↓
+    Expand Selection to Function (JavaScript)   Alt+Up
+    Restore Last Selection                      Alt+Up
 
 Or similarly, on OS X:
     
-    Expand Selection to Function (JavaScript)   ⌥↑
-    Restore Last Selection                      ⌥↓
+    Expand Selection to Function (JavaScript)   ⌥↑ (Option+Up)
+    Restore Last Selection                      ⌥↓ (Option+Up)
