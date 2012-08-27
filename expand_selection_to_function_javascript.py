@@ -96,6 +96,7 @@ class ContractSelection(JavaScriptTextCommand):
 		for r in last_regions:
 			sel.add(r) 
 
+
 class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 	"""Expands the current selection regions to select the current function.
 	
