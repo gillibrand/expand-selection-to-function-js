@@ -7,7 +7,7 @@ __js_function_re__ = re.compile(r"""
 	# Anonymous function
 	(?:
 		function \s*	# function
-		\( [^\)]* \) 	# (params)
+		\( [^\)]* \)	# (params)
 	)
 	|
 	# Anonymous function as propery.
@@ -28,7 +28,7 @@ __js_function_re__ = re.compile(r"""
 	(?:
 		function \s*		# function
 		[_$a-zA-Z0-9]+ \s*	# aName
-		\( [^\)]* \) 		# (params)
+		\( [^\)]* \)		# (params)
 	)
 """, re.VERBOSE)
 
@@ -154,9 +154,11 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 		for i in xrange(braces_start + 1, self.view.size()):
 			char = self.view.substr(i)
 
-			if char == '{':
+			# Short-circuit the scope check for "comment' since I assume it's
+			# relatively slow compared to the strcmp.
+			if char == '{' and not self.view.score_selector(i, 'comment'):
 				depth += 1
-			elif char == '}':
+			elif char == '}' and not self.view.score_selector(i, 'comment'):
 				depth -= 1
 				if depth == 0:
 					return sublime.Region(braces_start, i + 1)
