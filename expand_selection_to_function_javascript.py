@@ -24,6 +24,15 @@ __js_function_re__ = re.compile(r"""
 		\( [^\)]* \)						# (params)
 	)
 	|
+	# Anonymous function as prototype method.
+	(?:
+		[_$a-zA-Z0-9]+\.					# ClassName.
+		prototype\. 						# prototype.
+		[_$a-zA-Z0-9]+ \s* = \s*			# methodName =
+		function \s*						# function
+		\( [^\)]* \)						# (params)
+	)
+	|
 	# Normal named functions
 	(?:
 		function \s*		# function
@@ -154,7 +163,7 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 		# Increase and decrease the depth based on { and }. Once at depth 0, we're balanced
 		depth = 1
 
-		for i in xrange(braces_start + 1, self.view.size()):
+		for i in range(braces_start + 1, self.view.size()):
 			char = self.view.substr(i)
 
 			# Short-circuit the scope check for "comment' since I assume it's
