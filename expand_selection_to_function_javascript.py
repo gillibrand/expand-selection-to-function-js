@@ -6,38 +6,38 @@ from sublime import Region
 __js_function_re__ = re.compile(r"""
 	# Anonymous function
 	(?:
-		function \s*	# function
-		\( [^\)]* \)	# (params)
+		function \s* # function
+		\( [^\)]* \) # (params)
 	)
 	|
 	# Anonymous function as propery.
 	(?:
-		[_$a-zA-Z0-9]+ \s* : \s*	# propertyName :
-		function \s*				# function
-		\( [^\)]* \)				# (params)
+		[_$a-zA-Z0-9]+ \s* : \s* # propertyName :
+		function \s*             # function
+		\( [^\)]* \)             # (params)
 	)
 	|
 	# Anonymous function as local variable.
 	(?:
-		var \s+ [_$a-zA-Z0-9]+ \s* = \s*	# var aName =
-		function \s*						# function
-		\( [^\)]* \)						# (params)
+		var \s+ [_$a-zA-Z0-9]+ \s* = \s* # var aName =
+		function \s*                     # function
+		\( [^\)]* \)                     # (params)
 	)
 	|
 	# Anonymous function as prototype method.
 	(?:
-		[_$a-zA-Z0-9]+\.					# ClassName.
-		prototype\. 						# prototype.
-		[_$a-zA-Z0-9]+ \s* = \s*			# methodName =
-		function \s*						# function
-		\( [^\)]* \)						# (params)
+		[_$a-zA-Z0-9]+\.         # ClassName.
+		prototype\.              # prototype.
+		[_$a-zA-Z0-9]+ \s* = \s* # methodName =
+		function \s*             # function
+		\( [^\)]* \)             # (params)
 	)
 	|
 	# Normal named functions
 	(?:
-		function \s*		# function
-		[_$a-zA-Z0-9]+ \s*	# aName
-		\( [^\)]* \)		# (params)
+		function \s*       # function
+		[_$a-zA-Z0-9]+ \s* # aName
+		\( [^\)]* \)       # (params)
 	)
 """, re.VERBOSE)
 
