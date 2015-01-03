@@ -39,6 +39,12 @@ __js_function_re__ = re.compile(r"""
 		[_$a-zA-Z0-9]+ \s* # aName
 		\( [^\)]* \)       # (params)
 	)
+	|
+	# ES6 fat arrow function
+	(?:
+		\( [^\)]* \)       # (params)
+		\s*=>
+	)
 """, re.VERBOSE)
 
 __open_brace_re__  = re.compile(r'\s*\{')
@@ -69,8 +75,8 @@ class ContractSelection(JavaScriptTextCommand):
 	Used to undo after selecting too much, or simply to visualize the active
 	function scope.
 
-	"""	
-	
+	"""
+
 	def is_enabled(self):
 		if not super(ContractSelection, self).is_enabled():
 			return False;
@@ -103,12 +109,12 @@ class ContractSelection(JavaScriptTextCommand):
 		sel.clear()
 		last_regions = __old_regions_stack__.pop();
 		for r in last_regions:
-			sel.add(r) 
+			sel.add(r)
 
 
 class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 	"""Expands the current selection regions to select the current function.
-	
+
 	Consecutive calls continue to expand the selection to outer functions.
 	Nothing happens if the outermost function is already selected.
 
@@ -120,11 +126,11 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 	def find_previous(self, regex, from_point):
 		"""Walks backwards from a point until it finds a region that matches
 		the given regex.
-		
+
 		Attempts to find the longest match possible. So while "oobar:
 		function()" may be a match, this will continue walking backwards until
 		it can no longer match, since "foobar: function()" is preferred.
-		
+
 		"""
 		a, b = from_point - 1, self.view.size()
 
@@ -174,16 +180,16 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 				depth -= 1
 				if depth == 0:
 					return sublime.Region(braces_start, i + 1)
-					
+
 		# end of file. Fail
-		return None			
+		return None
 
 
 	def expand_to_function(self, original_region):
 		"""Returns a new, expanded region to cover the closest function that encloses the given region.
-		
+
 		If there is no enclosing region, the original region is returned.
-		
+
 		"""
 		search_back_from_point = original_region.begin()
 
@@ -192,7 +198,7 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 			# The region is the beginning of the function, like: function spam(). Does not include function body.
 			if not function_start_region:
 				break
-		
+
 			brace_region = self.find_balanced_braces(function_start_region.end())
 			if not brace_region:
 				break
@@ -235,5 +241,5 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 		sel.clear()
 		for region in new_regions:
 			sel.add(region)
-			
+
 
