@@ -33,4 +33,15 @@ Or similarly, on OS X:
 Compatibility
 -------------
 
-Compatible with both Sublime Text 2 and Sublime Text 3 (as of beta build 3019).
+Compatible with both Sublime Text 2 and Sublime Text 3.
+
+Version History
+---------------
+
+### 1/3/2015
+
+- Support for ES 6 fat arrow functions (with braces) courtesy of [Cheng Lou](https://github.com/chenglou).
+
+### The Past
+
+- Initial version.
