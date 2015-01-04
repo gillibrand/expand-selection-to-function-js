@@ -41,6 +41,7 @@ Version History
 ### 1/3/2015
 
 - Support for ES 6 fat arrow functions (with braces) courtesy of [Cheng Lou](https://github.com/chenglou).
+- Fixed typos in the keyboard shortcuts in this README.
 
 ### The Past
 
