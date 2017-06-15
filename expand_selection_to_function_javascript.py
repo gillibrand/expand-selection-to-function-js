@@ -19,7 +19,7 @@ __js_function_re__ = re.compile(r"""
 	|
 	# Anonymous function as local variable.
 	(?:
-		var \s+ [_$a-zA-Z0-9]+ \s* = \s* # var aName =
+		[(var)(const)(let)] \s+ [_$a-zA-Z0-9]+ \s* = \s* # var|const|let aName =
 		function \s*                     # function
 		\( [^\)]* \)                     # (params)
 	)
