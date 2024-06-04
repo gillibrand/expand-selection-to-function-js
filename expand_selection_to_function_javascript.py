@@ -1,5 +1,6 @@
 import sublime, sublime_plugin, re
 from sublime import Region
+import time
 
 # Match all the JavaScript function markers we know about.  Order doesn't
 # matter, since they don't overlap when doing re.match.
@@ -217,7 +218,11 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 	def run(self, edit):
 		sel = self.view.sel()
 
+		# start_time = time.perf_counter()
 		new_regions = [self.expand_to_function(region) for region in sel]
+		# end_time = time.perf_counter()
+		# elapsed_time = end_time - start_time 
+		# print('Elapsed time: {} seconds'.format(elapsed_time))
 
 		# Don't add to the stack if the selection didn't change.
 		if all(old == new for old, new in zip(sel, new_regions)): return
