@@ -34,9 +34,10 @@ Compatible with both Sublime Text 2 and Sublime Text 3.
 
 ## Version History
 
-### 6/4/2024
+### 1.0.4 (6/4/2024)
 
 - Support comment between function name and opening brace.
+- Switched to semantic version numbers for future updates.
 
 ### 1/3/2015
 
