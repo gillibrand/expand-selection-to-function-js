@@ -123,38 +123,6 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 	def is_comment_at_point(self, point):
 		return self.view.score_selector(point, 'comment')
 
-	def find_previous(self, regex, from_point):
-		"""Walks backwards from a point until it finds a region that matches
-		the given regex.
-
-		Attempts to find the longest match possible. So while "oobar:
-		function()" may be a match, this will continue walking backwards until
-		it can no longer match, since "foobar: function()" is preferred.
-
-		"""
-		a, b = from_point - 1, self.view.size()
-
-		last_match = None
-
-		while a > -1:
-			text = self.view.substr(sublime.Region(a, b))
-			match = regex.match(text)
-
-			if match and not self.is_comment_at_point(a):
-				# A match, but will still check if there is a longer one.
-				last_match = match
-			elif last_match:
-				# No longer a match, so go back to the last match instead.
-				a += 1
-				break
-
-			a -= 1
-
-		if not last_match:
-			return None
-		else:
-			return sublime.Region(a, a + len(last_match.group(0)))
-
 	def find_balanced_braces(self, start_point):
 		"""Returns a region that includes the next balanced set of braces after or from start_point. If the start_point
 		is NOT an opening brade, this will will move forward down until it finds one."""
@@ -204,13 +172,19 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 		If there is no enclosing region, the original region is returned.
 
 		"""
-		search_back_from_point = original_region.begin()
 
-		while search_back_from_point > 0:
-			function_start_region = self.find_previous(__js_function_re__, search_back_from_point)
-			# The region is the beginning of the function, like: function spam(). Does not include function body.
-			if not function_start_region:
-				break
+		# Just have std lib final every function before where we are. This is actually much faster
+		# than trying to walk backwards and matching each char as we go.
+		text_before = self.view.substr(sublime.Region(0, original_region.begin()))
+		function_matches = __js_function_re__.finditer(text_before)
+
+		for m in reversed(list(function_matches)):
+			a = m.start()
+			b = m.end()
+
+			if self.is_comment_at_point(a): continue
+
+			function_start_region = sublime.Region(a, b)
 
 			brace_region = self.find_balanced_braces(function_start_region.end())
 			if not brace_region:
