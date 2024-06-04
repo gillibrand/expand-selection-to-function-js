@@ -156,14 +156,27 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 			return sublime.Region(a, a + len(last_match.group(0)))
 
 	def find_balanced_braces(self, start_point):
-		"""Returns a region that includes the next balanced set of parens after or from start_point."""
+		"""Returns a region that includes the next balanced set of braces after or from start_point. If the start_point
+		is NOT an opening brade, this will will move forward down until it finds one."""
 
-		# Next char is expected to be a {
-		m = __open_brace_re__.match(self.view.substr(Region(start_point, self.view.size())))
-		if not m:
-			return None
-		else:
-			braces_start = start_point + len(m.group(0))
+		# Next char is expected to be a {, but we'll keep walking until we find the first one. This is to accommodate
+		# the case where there is a comment between the function name and first brace.
+		skip_count = 0
+		braces_start = None
+		while start_point < self.view.size() - 1:
+			m = __open_brace_re__.match(self.view.substr(Region(start_point, self.view.size())))
+			if not m:
+				# Move to next char (we're probably in an comment)
+				start_point += 1
+				skip_count += 1
+				if skip_count >= 500:
+					# Give up if we skip too many. Might just be malformed and don't want to search too long
+					return None
+			else:
+				braces_start = start_point + len(m.group(0))
+				break
+		
+		if braces_start is None: return None
 
 		# Inside the first bracket, we are at depth 1.
 		# Increase and decrease the depth based on { and }. Once at depth 0, we're balanced
@@ -241,5 +254,3 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 		sel.clear()
 		for region in new_regions:
 			sel.add(region)
-
-

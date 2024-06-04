@@ -1,5 +1,4 @@
-Expand Selection to Function (JavaScript)
-=========================================
+# Expand Selection to Function (JavaScript)
 
 A command to expand the current selection to the enclosing JavaScript function. This works with named and anonymous functions.
 
@@ -17,8 +16,7 @@ Running it again will then select the variable and trailing semicolon:
 
 After expanding, you can restore the last selection, which will contract the selection back to what it was before. You can expand several times then restore several times to return to your original selection, which is useful for quickly visualizing the scope of deeply nested functions.
 
-Usage
------
+## Usage
 
 Both commands are available in the `Selection` menu and bound to the following keyboard shortcuts on Windows and Linux:
 
@@ -30,13 +28,15 @@ Or similarly, on OS X:
     Expand Selection to Function (JavaScript)   ⌥↑ (Option+Up)
     Restore Last Selection                      ⌥↓ (Option+Down)
 
-Compatibility
--------------
+## Compatibility
 
 Compatible with both Sublime Text 2 and Sublime Text 3.
 
-Version History
----------------
+## Version History
+
+### 6/4/2024
+
+- Support comment between function name and opening brace.
 
 ### 1/3/2015
 
