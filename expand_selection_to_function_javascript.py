@@ -174,7 +174,7 @@ class ExpandSelectionToFunctionJavascript(JavaScriptTextCommand):
 
 		"""
 
-		# Just have std lib final every function before where we are. This is actually much faster
+		# Just have std lib find every function at once, before where we are. This is actually much faster
 		# than trying to walk backwards and matching each char as we go.
 		text_before = self.view.substr(sublime.Region(0, original_region.begin()))
 		function_matches = __js_function_re__.finditer(text_before)
